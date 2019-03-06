@@ -7,11 +7,13 @@ using ld = long double;
 
 typedef vector<int> vi;
 
+// Enhanced UnionFind class with methods to return the size of connected component and clear the set
 class UnionFind
 {
 private:
 	vi p, rank, size;
 public:
+	// Constructor
 	UnionFind(int N)
 	{
 		p.assign(N, 0);
@@ -20,18 +22,22 @@ public:
 		for (int i = 0; i != N; ++i)
 			p[i] = i;
 	}
+	// Recursively find the SetId that a node belongs to with path compression
 	int findSet(int i)
 	{
 		return p[i] == i ? i : (p[i] = findSet(p[i]));
 	}
+	// Determine whether two nodes belong to a same set
 	bool isSameSet(int i, int j)
 	{
 		return findSet(i) == findSet(j);
 	}
+	// Return the size of a connected component that a node belongs to
 	int findSetSize(int i)
 	{
 		return size[findSet(i)];
 	}
+	// Unite two sets
 	void unionSet(int i, int j)
 	{
 		if (!isSameSet(i, j))
@@ -53,6 +59,7 @@ public:
 		}
 		return;
 	}
+	// Reset the set to where all nodes are isolated
 	void clearSet()
 	{
 		int N = p.size();
@@ -71,6 +78,7 @@ UnionFind VFnetwork(maxn);
 map<string, int> records;
 int id = 0;
 
+// assign Id to a new appeared node if needed, and return its Id
 int getId(string s)
 {
 	if (!records.count(s))
