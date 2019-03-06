@@ -16,8 +16,8 @@ int main()
 	while (scanf("%d %d", &n, &m) != EOF)
 	{
 		getchar();
-		set<char> wakeups;
-		AdjList links;
+		set<char> wakeups;	// storing all nodes that have waken up
+		AdjList links;		// storing the graph
 		for (int i = 0; i != minn; ++i)
 		{
 			char c = getchar();
@@ -32,16 +32,17 @@ int main()
 			links[x].push_back(y);
 			links[y].push_back(x);
 		}
-		int ret = 0;
-		bool never = false;
+		int ret = 0;			// the year has spent
+		bool never = false;		// the flag of never waking up
 		while (wakeups.size() != (unsigned) n)
 		{
 			vector<char> new_wakeup;
-			for (AdjList::iterator iter = links.begin(); iter != links.end(); ++iter)
+			for (AdjList::iterator iter = links.begin(); iter != links.end(); ++iter)			// scan every sleeping node
 			{
 				if (!wakeups.count(iter->first))
 				{
 					int num_wakeup_links = 0;
+					// check whether it has three adjacent nodes waking up
 					for (vc::iterator iter2 = iter->second.begin(); iter2 != iter->second.end(); ++iter2)
 					{
 						if (wakeups.count(*iter2))
