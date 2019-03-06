@@ -37,15 +37,7 @@ private:
 				st[p] = (p1 == p2 ? 1 : -1);
 		}
 	}
-	int findP(int pos, int p, int L, int R)
-	{
-		if (L == R)
-			return p;
-		if (pos <= (L + R) / 2)
-			return findP(pos, left(p), L, (L + R) / 2);
-		else
-			return findP(pos, right(p), (L + R) / 2 + 1, R);
-	}
+	// Range Signal Query
 	int rsq(int p, int L, int R, int i, int j)
 	{
 		if (i > R || j < L)
@@ -64,6 +56,20 @@ private:
 		else
 			return (p1 == p2 ? 1 : -1);
 	}
+	void update(int p, int L, int R, int pos, int val)
+	{
+		if (L == R)
+		{
+			st[p] = (val == 0 ? 0 : (val > 0 ? 1 : -1));
+			return;
+		}
+		if (pos <= (L + R) / 2)
+			update(left(p), L, (L + R) / 2, pos, val);
+		else
+			update(right(p), (L + R) / 2 + 1, R, pos, val);
+		st[p] = st[left(p)] * st[right(p)];
+		return;
+	}
 public:
 	SegmentTree(const vi& _A)
 	{
@@ -72,33 +78,14 @@ public:
 		st.assign(4 * n, 0);
 		build(1, 0, n - 1);
 	}
+	// Range Signal Query
 	int rsq(int i, int j)
 	{
 		return rsq(1, 0, n - 1, i, j);
 	}
 	void update(int pos, int val)
 	{
-		int p = findP(pos, 1, 0, n - 1);
-		A[pos] = val;
-		if (st[p] == 0)
-			build(1, 0, n - 1);
-		else if (!val)
-		{
-			while (p > 0)
-			{
-				st[p] = 0;
-				p = p >> 1;
-			}
-		}
-		else
-		{
-			int old_sig = st[p], new_sig = val > 0 ? 1 : -1;
-			while (p > 0)
-			{
-				st[p] = st[p] / old_sig * new_sig;
-				p >>= 1;
-			}
-		}
+		update(1, 0, n - 1, pos, val);
 		return;
 	}
 };
