@@ -16,9 +16,10 @@ int main()
 	{
 		int a, b, c;
 		scanf("%d %d %d", &a, &b, &c);
-		int upper = floor(sqrt((double) c));
-		int lower = ceil(-sqrt((double) c));
+		int upper = floor(sqrt((double) c));	// maximum possible value of x, y, and z
+		int lower = ceil(-sqrt((double) c));	// minimum possible value of x, y, and z
 		bool solved = false;
+		// Enumerate all combinations of x, y, and z
 		for (int x = lower; x <= upper; ++x)
 		{
 			for (int y = lower; y <= upper; ++y)

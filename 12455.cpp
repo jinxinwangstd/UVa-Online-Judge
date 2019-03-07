@@ -20,6 +20,7 @@ int main()
 		for (int i = 0; i != p; ++i)
 			scanf("%d", bars + i);
 		bool solved = false;
+		// generate all subsets of bars
 		for (int i = 0; i != (1 << p); ++i)
 		{
 			int sum = 0;
@@ -28,6 +29,7 @@ int main()
 				if (i & (1 << j))
 					sum += bars[j];
 			}
+			// check whether the sum of this subset is equal to the given parameter
 			if (sum == n)
 			{
 				printf("YES\n");

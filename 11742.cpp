@@ -21,7 +21,7 @@ int main()
 		vector<vector<int> > constraints;
 		for (int i = 0; i != m; ++i)
 		{
-			vector<int> constraint;
+			vector<int> constraint;		// store constraints as vector of integers
 			for (int j = 0; j != maxn; ++j)
 			{
 				int num;
@@ -36,9 +36,11 @@ int main()
 			bool satisfy = true;
 			for (int i = 0; i != m; ++i)
 			{
+				// find the positions of elements that are related to the constraint
 				int *p1 = find(p, p + n, constraints[i][0]);
 				int *p2 = find(p, p + n, constraints[i][1]);
 				int c = constraints[i][2];
+				// check whether it satisfies the constraint
 				if (c > 0 && abs(p1 - p2) > c)
 				{
 					satisfy = false;
@@ -50,6 +52,7 @@ int main()
 					break;
 				}
 			}
+			// this permutation satisfies all constraints
 			if (satisfy)
 				++ret;
 		}

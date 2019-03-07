@@ -16,11 +16,13 @@ int main()
 		++caseNo;
 		printf("%s", caseNo == 1 ? "" : "\n");
 		bool solved = false;
+		// Enumerate all possible values for fghij
 		for (int fghij = 1234; fghij <= 98765 / N; ++fghij)
 		{
 			int abcde = fghij * N;
 			int tmp;
 			int used = (fghij < 10000);
+			// Check whether abcde and fghij use all digits from 0 through 9
 			tmp = abcde;
 			while (tmp)
 			{

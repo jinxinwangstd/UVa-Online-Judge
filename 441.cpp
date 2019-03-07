@@ -19,6 +19,7 @@ int main()
 		int seq[k];
 		for (int i = 0; i != k; ++i)
 			scanf("%d", seq + i);
+		// Enumerate all subsets of size 6 of the set seq
 		for (int a = 0; a <= k - size; ++a)
 			for (int b = a + 1; b <= k - (size - 1); ++b)
 				for (int c = b + 1; c <= k - (size - 2); ++c)
