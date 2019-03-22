@@ -5,9 +5,6 @@ using ull = uint64_t;
 using ll = int64_t;
 using ld = long double;
 
-//const int maxn = 1000000 + 50;
-//int ids[maxn];
-
 int main()
 {
 #ifdef FI
@@ -18,9 +15,9 @@ int main()
 	{
 		++caseNo;
 		printf("Scenario #%d\n", caseNo);
-		map<int, int> ids;
-		vector<queue<int> > teams;
-		queue<int> q;
+		map<int, int> ids;			// record each element's team id
+		vector<queue<int> > teams;	// record each team's queue
+		queue<int> q;				// record the team queue
 		for (int i = 0; i != n; ++i)
 		{
 			int num_elem;
@@ -41,22 +38,26 @@ int main()
 			stringstream ss(cmd);
 			string type;
 			ss >> type;
-			if (type[0] == 'E')
+			if (type[0] == 'E')				// an element enqueue
 			{
 				int x, x_id;
 				ss >> x;
 				x_id = ids[x];
-				if (teams[x_id].empty())
+				if (teams[x_id].empty())	// if it is the first element in his team
 					q.push(x_id);
 				teams[x_id].push(x);
 			}
-			else
+			else 							// dequeue from the team queue
 			{
-				int front_id = q.front();
-				printf("%d\n", teams[front_id].front());
-				teams[front_id].pop();
-				if (teams[front_id].empty())
-					q.pop();
+				if (!q.empty())				// check whether there are elements in the queue
+				{
+					int front_id = q.front();
+					printf("%d\n", teams[front_id].front());
+					teams[front_id].pop();
+					if (teams[front_id].empty())	// if the team has all elements dequeued
+						q.pop();
+				}
+				// else we output nothing
 			}
 		}
 		printf("\n");
