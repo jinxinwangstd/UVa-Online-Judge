@@ -12,13 +12,16 @@ typedef vector<int> vi;
 const int maxn = 30;
 const int VISITED = 1;
 const int UNVISITED = 0;
-vi dfs_num, AdjList[maxn];
+vi dfs_num;			// dfs array to avoid cycles
+vi AdjList[maxn];	// graph represented in adjacent list
 
+// Return the node id
 int nodeID(char c)
 {
 	return c - 'A';
 }
 
+// Depth-first search through a graph in adjacent list
 void dfs(int u)
 {
 	dfs_num[u] = VISITED;
@@ -50,13 +53,13 @@ int main()
 			AdjList[nodeID(buffer[1])].push_back(nodeID(buffer[0]));
 		}
 		int numCC = 0;
-		dfs_num.assign(num, UNVISITED);
+		dfs_num.assign(num, UNVISITED);		// initialize the dfs array
 		for (int i = 0; i != num; ++i)
 		{
 			if (dfs_num[i] == UNVISITED)
 			{
-				numCC++;
-				dfs(i);
+				numCC++;			// a new connected component
+				dfs(i);				// find all nodes in this connected component
 			}
 		}
 		printf("%d\n%s", numCC, nT ? "\n" : "");

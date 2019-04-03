@@ -5,20 +5,25 @@ using ull = uint64_t;
 using ll = int64_t;
 using ld = long double;
 
-int dr[] = {1, 1, 0, -1, -1, -1, 0, 1};
-int dc[] = {0, 1, 1, 1, 0, -1, -1, -1};
+// Trick to explore an implicit 2D grid
+// The order is S, SE, E, NE, N, NW, W, SW (starting from S in counter-clockwise)
+int dr[] = {1, 1, 0, -1, -1, -1, 0, 1};		// variation in x axis (row number)
+int dc[] = {0, 1, 1, 1, 0, -1, -1, -1};		// variation in y axis (column number)
 const int num_directions = 8;
 const int maxn = 100 + 5;
 const int VISITED = 1, UNVISITED = 0;
-int g[maxn][maxn], dfs_num[maxn][maxn], R, C;
+int g[maxn][maxn];			// 2D implicit graph
+int dfs_num[maxn][maxn];	// dfs array to avoid cycles
+int R, C;					// the size of the grid
 
+// DFS to label (color) and count the size of each component
 int floodfill(int r, int c, char c1)
 {
-	if (r < 0 || r >= R || c < 0 || c >= C)
+	if (r < 0 || r >= R || c < 0 || c >= C)	// out of the grid
 		return 0;
-	if (g[r][c] != c1)
+	if (g[r][c] != c1)		// does not have the corresponding color
 		return 0;
-	if (dfs_num[r][c] == VISITED)
+	if (dfs_num[r][c] == VISITED)	// already visited
 		return 0;
 	dfs_num[r][c] = VISITED;
 	int ans = 1;

@@ -10,11 +10,14 @@ typedef vector<ii> vii;
 typedef vector<int> vi;
 
 const int maxn = 100 + 5;
-int g[maxn][maxn], reachable[maxn], dfs_num[maxn], n, id;
+int g[maxn][maxn];			// graph represented by adjacent matrix
+int reachable[maxn];		// record whether every node is reachable from start in the original graph
+int dfs_num[maxn];			// dfs array to avoid cycle
+int n, id;
 
 void dfs(int u)
 {
-	if (u == id)
+	if (u == id)		// equivalent to removing all outcoming edges of node "id"
 		return;
 	dfs_num[u] = 1;
 	for (int i = 0; i != n; ++i)
@@ -24,6 +27,8 @@ void dfs(int u)
 	}
 }
 
+// Print one line of frame of the output like that
+// +------------------------+
 void printEdge()
 {
 	printf("+");
@@ -48,9 +53,9 @@ int main()
 			for (int j = 0; j != n; ++j)
 				scanf("%d", &g[i][j]);
 		memset(dfs_num, 0, sizeof(dfs_num));
-		id = -1;
+		id = -1;		// at first not removing any edge
 		dfs(0);
-		for (int i = 0; i != n; ++i)
+		for (int i = 0; i != n; ++i)	// test the reachability from the root node
 			reachable[i] = dfs_num[i];
 		printEdge();
 		for (id = 0; id != n; ++id)
@@ -59,7 +64,7 @@ int main()
 			dfs(0);
 			printf("|");
 			for (int i = 0; i != n; ++i)
-				printf("%s|", reachable[i] && !dfs_num[i] ? "Y" : "N");
+				printf("%s|", reachable[i] && !dfs_num[i] ? "Y" : "N");		// only the node that is originally reachable and after removing one node became unreachable is dominated
 			printf("\n");
 			printEdge();
 		}
