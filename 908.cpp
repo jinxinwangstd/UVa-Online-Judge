@@ -78,14 +78,14 @@ int main()
 			scanf("%d %d %d", &u, &v, &w);
 			edges.push_back(make_pair(w, ii(u - 1, v - 1)));
 		}
+		// Kruskal's algorithm to construct the minimum spanning tree
 		sort(edges.begin(), edges.end());
-
 		int new_cost = 0;
 		UnionFind UF(n);
 		for (int i = 0; i != m + k; ++i)
 		{
 			pair<int, ii> front = edges[i];
-			if (!UF.isSameSet(front.second.first, front.second.second))
+			if (!UF.isSameSet(front.second.first, front.second.second))	// to avoid cycle
 			{
 				new_cost += front.first;
 				UF.unionSet(front.second.first, front.second.second);
