@@ -47,12 +47,12 @@ public:
 			if (rank[x] > rank[y])
 			{
 				p[y] = x;
-				size[x] = size[x] + size[y];
+				size[x] += size[y];
 			}
 			else
 			{
 				p[x] = y;
-				size[y] = size[y] + size[x];
+				size[y] += size[x];
 				if (rank[x] == rank[y])
 					++rank[y];
 			}
