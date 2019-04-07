@@ -13,11 +13,12 @@ const int maxn = 200 + 5;
 int n;
 vi g[maxn];		// graph represented in adjacent list
 
+// Tweak of BFS to check whether a graph is bipartite
 bool bipartite(int s)
 {
 	queue<int> q;
 	q.push(s);
-	vi color(n, INT_MAX);
+	vi color(n, INT_MAX);	// array to record the color for each node
 	color[s] = 0;
 	bool isBipartite = true;
 	while (!q.empty() && isBipartite)
@@ -25,16 +26,20 @@ bool bipartite(int s)
 		int u = q.front();
 		q.pop();
 		int num_adj = (int) g[u].size();
+		// Color all adjacent nodes with different color
 		for (int i = 0; i != num_adj; ++i)
 		{
 			int v = g[u][i];
-			if (color[v] == INT_MAX)
+			if (color[v] == INT_MAX)	// not colored
 			{
 				color[v] = !color[u];
 				q.push(v);
 			}
-			else if (color[v] == color[u])
+			else if (color[v] == color[u])	// adjacent nodes have the same color
+			{
 				isBipartite = false;
+				break;
+			}
 		}
 	}
 	return isBipartite;
@@ -47,7 +52,7 @@ int main()
 #endif
 	while (scanf("%d", &n) && n)
 	{
-		for (int i = 0; i != n; ++i)
+		for (int i = 0; i != n; ++i)	// clear the graph
 			g[i].clear();
 		int l;
 		scanf("%d", &l);
