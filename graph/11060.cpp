@@ -35,6 +35,7 @@ int main()
 		getline(cin, buffer);
 		int num_edges = stoi(buffer);
 		memset(num_inedges, 0, sizeof(num_inedges));
+		// Read in all directed edges
 		for (int i = 0; i != num_edges; ++i)
 		{
 			string less, more;

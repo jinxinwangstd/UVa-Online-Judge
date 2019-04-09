@@ -15,3 +15,4 @@ The time complexity to traverse through the graph in adjacent list is O(V + E), 
    - The queue we use to store unchecked vertices with zero incoming degree should be a priority queue.
 2. For the input, we need to be careful about some part of the input may be optional or missing. Be careful about the parameter about the number of input when their lower bound may be 0.
    Like in this problem, the m can be 0 which means there is no edge in the graph so the way we read input need a little twist.
+3. The method to access the front element of a priority queue in C++ is top(), not front().
