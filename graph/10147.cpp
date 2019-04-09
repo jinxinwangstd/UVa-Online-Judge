@@ -67,6 +67,7 @@ int main()
 		int n;
 		scanf("%d", &n);
 		int x, y;
+		// Read in all coordinates
 		for (int i = 0; i != n; ++i)
 		{
 			scanf("%d %d", &x, &y);
@@ -77,6 +78,7 @@ int main()
 		set<ii> old_edges;
 		UnionFind UF = UnionFind(n);
 		int u, v;
+		// Read in all existed edges
 		for (int i = 0; i != m; ++i)
 		{
 			scanf("%d %d", &u, &v);
@@ -84,6 +86,7 @@ int main()
 			UF.unionSet(u - 1, v - 1);
 		}
 		vector< pair<int, ii> > new_edges;
+		// Calculate the new edges we can build
 		for (int i = 0; i != n; ++i)
 		{
 			for (int j = i + 1; j != n; ++j)
@@ -94,9 +97,9 @@ int main()
 				}
 			}
 		}
+		// Run Kruskal's algorithm
 		sort(new_edges.begin(), new_edges.end());
-		int num = (int) new_edges.size();
-		int num_built = 0;
+		int num = (int) new_edges.size(), num_built = 0;
 		for (int i = 0; i != num; ++i)
 		{
 			pair<int, ii> front = new_edges[i];
