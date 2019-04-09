@@ -10,7 +10,8 @@ typedef pair<int, int> ii;
 typedef vector<ii> vii;
 
 const int maxn = 100 + 5;
-int g[maxn][maxn], n, num_inedges[maxn];
+vi g[maxn];
+int n, num_inedges[maxn];
 
 int main()
 {
@@ -19,10 +20,9 @@ int main()
 #endif
 	int caseNo = 0;
 	string buffer;
-	while (cin)
+	while (scanf("%d", &n) != EOF)
 	{
 		getline(cin, buffer);
-		n = stoi(buffer);
 		// To assign unique id to each beverage
 		map<string, int> ids;
 		vector<string> record;
@@ -34,45 +34,41 @@ int main()
 		}
 		getline(cin, buffer);
 		int num_edges = stoi(buffer);
-		memset(g, 0, sizeof(g));
 		memset(num_inedges, 0, sizeof(num_inedges));
 		for (int i = 0; i != num_edges; ++i)
 		{
 			string less, more;
 			cin >> less >> more;
-			g[ids[less]][ids[more]] = 1;
+			g[ids[less]].push_back(ids[more]);
 			num_inedges[ids[more]]++;
 		}
-		if (num_edges)
+		if (num_edges)					// number of edges could be zero
 			getline(cin, buffer);
 		// Kahn's algorithm
 		vector<int> l;	// topological sort list
-		queue<int> q;	// queue for vertices without incoming edges
+		priority_queue<int, vector<int>, greater<int> > q;	// priority queue for vertices without incoming edges
 		for (int u = 0; u != n; ++u)	// find vertices without incoming edges
 			if (!num_inedges[u])
 				q.push(u);
 		while (!q.empty())
 		{
-			int u = q.front();
+			int u = q.top();
 			q.pop();
 			l.push_back(u);
 			// eliminate all outcoming edges for vertex u
-			for (int v = 0; v != n; ++v)
+			vi adjs = g[u];
+			int num = (int) adjs.size();
+			for (int i = 0; i != num; ++i)
 			{
-				if (g[u][v])
-				{
-					num_inedges[v]--;
-					if (!num_inedges[v])	// check whether v becomes vertex without incoming edges
-						q.push(v);
-					g[u][v] = 0;
-				}
+				--num_inedges[adjs[i]];
+				if (!num_inedges[adjs[i]])
+					q.push(adjs[i]);
 			}
 		}
 		printf("Case #%d: Dilbert should drink beverages in this order:", ++caseNo);
 		for (vector<int>::iterator iter = l.begin(); iter != l.end(); ++iter)
 			cout << " " << record[*iter];
 		printf(".\n\n");
-		getline(cin, buffer);
 	}
 	return 0;
 }

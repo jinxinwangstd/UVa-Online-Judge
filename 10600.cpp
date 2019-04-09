@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define FI
+
 using namespace std;
 using ull = uint64_t;
 using ll = int64_t;
@@ -13,8 +13,9 @@ class UnionFind
 {
 private:
 	vi p, rank;
+	int num_sets;
 public:
-	UnionFind(int N)
+	UnionFind(int N) : num_sets(N)
 	{
 		p.assign(N, 0);
 		rank.assign(N, 0);
@@ -29,6 +30,10 @@ public:
 	{
 		return findSet(i) == findSet(j);
 	}
+	int getNumSets()
+	{
+		return num_sets;
+	}
 	void unionSet(int i, int j)
 	{
 		if (!isSameSet(i, j))
@@ -42,6 +47,7 @@ public:
 				if (rank[x] == rank[y])
 					++rank[y];
 			}
+			--num_sets;
 		}
 		return;
 	}
@@ -96,7 +102,8 @@ int main()
 					}
 				}
 			}
-			sub_minimal = min(sub_minimal, cost);
+			if (subUF.getNumSets() == 1)	// The edges selected may not be able to make graph connected, and only connected set is valid
+				sub_minimal = min(sub_minimal, cost);
 		}
 		printf("%d %d\n", minimal, sub_minimal);
 	}
