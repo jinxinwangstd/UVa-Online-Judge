@@ -66,11 +66,13 @@ int main()
 		scanf("%d %d", &n, &m);
 		vector< pair<int, ii> > edges;
 		int u, v, w;
+		// Read in all edges
 		for (int i = 0; i != m; ++i)
 		{
 			scanf("%d %d %d", &u, &v, &w);
 			edges.push_back(make_pair(w, ii(u - 1, v - 1)));
 		}
+		// Kruskal's algorithm
 		sort(edges.begin(), edges.end());
 		vi mst_edges;
 		int minimal = 0, sub_minimal = INT_MAX;
@@ -84,8 +86,9 @@ int main()
 				minimal += front.first;
 				UF.unionSet(front.second.first, front.second.second);
 			}
-		}
+		}		// find the minimum spanning tree
 		int num_mst_edges = (int) mst_edges.size();
+		// Block each edge in the MST and find the corresponding minimum spanning tree, select the best one then it is the second MST
 		for (int i = 0; i != num_mst_edges; ++i)
 		{
 			UnionFind subUF = UnionFind(n);
