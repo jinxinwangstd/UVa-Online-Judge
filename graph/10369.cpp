@@ -13,8 +13,9 @@ class UnionFind
 {
 private:
 	vi p, rank;
+	int num_sets;
 public:
-	UnionFind(int N)
+	UnionFind(int N) : num_sets(N)
 	{
 		p.assign(N, 0);
 		rank.assign(N, 0);
@@ -24,6 +25,10 @@ public:
 	int findSet(int i)
 	{
 		return p[i] == i ? i : p[i] = findSet(p[i]);
+	}
+	int getNumSets()
+	{
+		return num_sets;
 	}
 	bool isSameSet(int i, int j)
 	{
@@ -42,6 +47,7 @@ public:
 				if (rank[x] == rank[y])
 					++rank[y];
 			}
+			--num_sets;
 		}
 		return;
 	}
@@ -66,28 +72,30 @@ int main()
 		scanf("%d %d", &s, &p);
 		vii positions;
 		int x, y;
+		// Read in all positions in the graph
 		for (int i = 0; i != p; ++i)
 		{
 			scanf("%d %d", &x, &y);
 			positions.push_back(make_pair(x, y));
 		}
 		vector< pair<int, ii> > edges;
+		// Calculate all possible edges we can build
 		for (int i = 0; i != p; ++i)
 			for (int j = i + 1; j != p; ++j)
 				edges.push_back(make_pair(squareDis(positions[i], positions[j]), ii(i, j)));
+		// Kruskal's algorithm
 		UnionFind UF = UnionFind(p);
 		sort(edges.begin(), edges.end());
-		int ret = 0, num_trans = 0, num = (int) edges.size();
+		int ret = 0, num = (int) edges.size();
 		for (int i = 0; i != num; ++i)
 		{
 			pair<int, ii> front = edges[i];
 			if (!UF.isSameSet(front.second.first, front.second.second))
 			{
-				++num_trans;
 				UF.unionSet(front.second.first, front.second.second);
-				if (num_trans == p - s)
+				if (UF.getNumSets() == s)		// there are S connected components in the graph
 				{
-					ret = front.first;
+					ret = front.first;			// record the last edges to form S connected components
 					break;
 				}
 			}
